@@ -1,0 +1,83 @@
+{
+    "process": {
+        "id": "org.n52.project.tb16.jupyter.SeverWeatherFeatures",
+        "title": "Selection of severe weather events for a specific temporal and spatial extent",
+        "description": "Selection of severe weather events for a specific temporal and spatial extent. Execution based on Jupyter notebook.",
+        "keywords": [
+            "Jupyter Notebook",
+            "severe weather"
+        ],
+        "metadata": [],
+        "version": "1.0.0",
+        "jobControlOptions": [
+            "async-execute",
+            "sync-execute"
+        ],
+        "outputTransmission": [
+            "value",
+            "reference"
+        ],
+        "links": [
+            {
+                "href": "https://testbed.dev.52north.org/eoap/rest/processes/org.n52.project.tb16.jupyter.SeverWeatherFeatures/jobs",
+                "rel": "execute",
+                "title": "Execute endpoint"
+            },
+            {
+                "href": "https://nbviewer.jupyter.org/github/matthesrieke/tb16-sandbox/blob/master/jupyter/severe-weather.ipynb",
+                "rel": "jupyter-hub",
+                "title": "Inspect the Notebook on Jupyterhub"
+            }
+        ],
+        "inputs": [
+            {
+                "id": "temporalExtent",
+                "title": "the factor of the NIR",
+                "keywords": [],
+                "metadata": [],
+                "input": {
+                    "formats": [
+                      {
+                        "default": true,
+                        "mimeType": "text/plain"
+                      }
+                    ]
+                  },
+                  "minOccurs": 1,
+                  "maxOccurs": 1
+            },
+            {
+                "id": "spatialExtent",
+                "title": "the factor of the NRI",
+                "keywords": [],
+                "metadata": [],
+                "input": {
+                    "formats": [
+                        {
+                            "default": true,
+                            "mimeType": "application/geo+json"
+                        }
+                    ]
+                },
+                "minOccurs": 1,
+                "maxOccurs": 1
+            }
+        ],
+        "outputs": [
+            {
+                "id": "feature",
+                "title": "The feature and geometry of the severe weather event",
+                "keywords": [],
+                "metadata": [],
+                "output": {
+                    "formats": [
+                        {
+                            "default": true,
+                            "mimeType": "application/geo+json"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
