@@ -1,0 +1,13 @@
+input_file: TB16_EOAP_download_and_preprocess.ipynb
+output_file: ./output/TB16_EOAP_download_and_preprocess_output_cwl.ipynb
+parameters: 
+  class: File
+  path: parameters.json
+
+cwltool:overrides:
+  test.cwl:
+    requirements:
+      EnvVarRequirement:
+        envDef:
+          LC_ALL: C.UTF-8
+          LANG: C.UTF-8
