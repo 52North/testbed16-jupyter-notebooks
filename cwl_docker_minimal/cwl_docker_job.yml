@@ -1,0 +1,15 @@
+input_notebook: 
+  class: File
+  path: cwl_docker_notebook.ipynb
+output_notebook: cwl_docker_notebook_output.ipynb
+parameters: 
+  class: File
+  path: cwl_docker_parameters.json
+
+cwltool:overrides:
+  cwl_docker.cwl:
+    requirements:
+      EnvVarRequirement:
+        envDef:
+          LC_ALL: C.UTF-8
+          LANG: C.UTF-8
