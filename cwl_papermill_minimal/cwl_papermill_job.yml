@@ -1,0 +1,15 @@
+input_notebook: 
+  class: File
+  path: cwl_papermill_notebook.ipynb
+output_notebook: cwl_papermill_notebook_output.ipynb
+parameters: 
+  class: File
+  path: cwl_papermill_parameters.json
+
+cwltool:overrides:
+  cwl_papermill.cwl:
+    requirements:
+      EnvVarRequirement:
+        envDef:
+          LC_ALL: C.UTF-8
+          LANG: C.UTF-8
