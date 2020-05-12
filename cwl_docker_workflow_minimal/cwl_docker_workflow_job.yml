@@ -1,0 +1,19 @@
+nb1_input_notebook: 
+  class: File
+  path: notebook_1.ipynb
+nb1_output_notebook: notebook_1_output.ipynb
+nb2_input_notebook: 
+  class: File
+  path: notebook_2.ipynb
+nb2_output_notebook: notebook_2_output.ipynb
+parameters: 
+  class: File
+  path: cwl_docker_workflow_parameters.json
+
+cwltool:overrides:
+  cwl_docker_workflow.cwl:
+    requirements:
+      EnvVarRequirement:
+        envDef:
+          LC_ALL: C.UTF-8
+          LANG: C.UTF-8
