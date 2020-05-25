@@ -3,6 +3,10 @@ cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: papermill
 
+hints:
+  DockerRequirement:
+    dockerPull: wmworkflow:latest
+
 inputs: 
   nb1_input_notebook:
     type: File

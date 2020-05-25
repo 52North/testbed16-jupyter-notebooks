@@ -9,6 +9,10 @@ inputs:
   parameters: File
 
 outputs: 
+  nb1_output_notebook:
+    type: File
+    streamable: false
+    outputSource: nb1_execute/output_0
   nb1_output:
     type: 
       type: array
@@ -34,7 +38,7 @@ requirements:
 
 steps:
   nb1_execute:
-    run: nb1.cwl
+    run: nb1_request/nb1.cwl
     in:
       nb1_input_notebook: nb1_input_notebook
       nb1_output_notebook: nb1_output_notebook
@@ -75,7 +79,7 @@ steps:
             outputEval: $(self[0].contents.replace('\n','').split(','))
     
   nb2_execute:
-    run: nb2.cwl
+    run: nb2_download_classify/nb2.cwl
     scatter: parameters
     in:
       nb2_input_notebook: nb2_input_notebook
