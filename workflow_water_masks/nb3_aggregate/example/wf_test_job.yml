@@ -1,0 +1,16 @@
+nb3_input_notebook: 
+  class: File
+  path: ../nb3.ipynb
+nb3_output_notebook: nb3_output.ipynb
+floodmasks_geotiff:
+  - {class: File, path: ./input/result1.tif}
+  - {class: File, path: ./input/result2.tif}
+  - {class: File, path: ./input/result3.tif}
+
+cwltool:overrides:
+  wf_test.cwl:
+    requirements:
+      EnvVarRequirement:
+        envDef:
+          LC_ALL: en_US.UTF-8
+          LANG: en_US.UTF-8
