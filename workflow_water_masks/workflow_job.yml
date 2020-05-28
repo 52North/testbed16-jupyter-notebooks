@@ -8,6 +8,11 @@ nb2_input_notebook:
   path: nb2_download_classify/nb2.ipynb
 nb2_output_notebook: nb2_output.ipynb
 
+nb3_input_notebook: 
+  class: File
+  path: nb3_aggregate/nb3.ipynb
+nb3_output_notebook: nb3_output.ipynb
+
 parameters: 
   class: File
   path: nb_parameters.json

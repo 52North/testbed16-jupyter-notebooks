@@ -6,6 +6,8 @@ inputs:
   nb1_output_notebook: string
   nb2_input_notebook: File
   nb2_output_notebook: string
+  nb3_input_notebook: File
+  nb3_output_notebook: string
   parameters: File
 
 outputs: 
@@ -19,6 +21,7 @@ outputs:
       items: string
     streamable: false
     outputSource: nb1_parse/files
+
   nb2_output_notebooks:
     type: 
       type: array
@@ -31,6 +34,15 @@ outputs:
       items: File
     streamable: false
     outputSource: nb2_execute/floodmask
+
+  nb3_output_notebook:
+    type: File
+    streamable: false
+    outputSource: nb3_execute/output_notebook
+  nb3_aggregated_floodmask:
+    type: File
+    streamable: false
+    outputSource: nb3_execute/floodmask
 
 requirements:
   SubworkflowFeatureRequirement: {}
@@ -87,7 +99,10 @@ steps:
       parameters: nb1_parse/files
     out: [output_notebook, floodmask]
 
-
-
-
-
+  nb3_execute:
+    run: nb3_aggregate/nb3.cwl
+    in:
+      nb3_input_notebook: nb3_input_notebook
+      nb3_output_notebook: nb3_output_notebook
+      floodmasks_geotiff: nb2_execute/floodmask
+    out: [output_notebook, floodmask]
