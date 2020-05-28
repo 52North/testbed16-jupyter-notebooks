@@ -40,7 +40,6 @@ inputs:
         }
     streamable: false
 
-
 outputs: 
   output_notebook:
     outputBinding:
