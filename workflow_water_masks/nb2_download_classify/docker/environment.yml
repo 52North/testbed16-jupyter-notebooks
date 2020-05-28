@@ -1,0 +1,17 @@
+name: env_snap
+channels:
+  - terradue
+  - conda-forge
+dependencies:
+  - snap
+  - ipykernel
+  - pip
+  - pip: 
+    - rasterio
+    - sentinelsat
+    - nteract-scrapbook
+    - papermill
+    - folium 
+    - shapely
+    - matplotlib
+    - scikit-image

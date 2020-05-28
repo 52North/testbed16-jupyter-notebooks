@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+  nb1request:
+    build: 
+      context: ./nb1_request/docker
+      args:
+        - SCIHUB_UN=$SCIHUB_UN
+        - SCIHUB_PW=$SCIHUB_WP
+  nb2classify:
+    build: 
+      context: ./nb2_download_classify/docker
+      args:
+        - SCIHUB_UN=$SCIHUB_UN
+        - SCIHUB_PW=$SCIHUB_WP
+  nb3aggregate:
+    build: ./nb3_aggregate/docker/
