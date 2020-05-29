@@ -1,0 +1,6 @@
+nb2_input_notebook: 
+  class: File
+  path: ../nb2.ipynb
+nb2_output_notebook: nb2_output.ipynb
+parameters: 
+  - c001a5c2-db67-403e-9ad6-0c6e6a0d903d
