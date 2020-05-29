@@ -1,0 +1,15 @@
+nb1_input_notebook: 
+  class: File
+  path: ../nb1.ipynb
+nb1_output_notebook: nb1_output.ipynb
+parameters: 
+  class: File
+  path: ./input/nb_parameters.json
+
+# cwltool:overrides:
+#   workflow.cwl:
+#     requirements:
+#       EnvVarRequirement:
+#         envDef:
+#           LC_ALL: C.UTF-8
+#           LANG: C.UTF-8
