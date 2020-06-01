@@ -5,7 +5,7 @@ baseCommand: papermill
 
 hints:
   DockerRequirement:
-    dockerPull: wmworkflow:latest
+    dockerPull: workflow_water_masks_nb2classify:latest
 
 inputs: 
   nb2_input_notebook:
