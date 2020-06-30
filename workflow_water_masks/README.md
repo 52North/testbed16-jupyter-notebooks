@@ -3,8 +3,12 @@
 ## Prerequesites
 The following things are required for the workflow:
 * docker and docker-compose installed
+* Scrapbook installed (required from nb1 to nb2 - https://github.com/nteract/scrapbook)
+    * `pip install nteract-scrapbook`
+    * (subject for improvement)
 * cwl-runner installed (see https://github.com/common-workflow-language/cwltool)
 * an account for ESAs SciHub (https://scihub.copernicus.eu/dhus/#/home)
+
 
 ## 1. Set SciHub Credentials (To be improved)
 Put your credentials for the ESA Scihub into an .env-file like follows
