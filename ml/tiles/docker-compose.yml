@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  labelData:
+    build: .
+    image: tb16-ml/download-tiles:latest
+    environment:
+      - INPUT_ZOOM_LEVEL=11
+      - INPUT_TILE_BASE_URL=https://eratosthenes.pvretano.com/cubewerx/cubeserv/default/ogcapi/mysql_tb16/collections/waterbody_2_50k/map/Water Body 2 Style/tiles/smerc_512/%s/%s/%s.png
+    volumes:
+      - ./aoi.geojson:/aoi.geojson
+      - ./training:/training
+  sentinelData:
+    build: .
+    image: tb16-ml/download-tiles:latest
+    environment:
+      - INPUT_ZOOM_LEVEL=11
+      - INPUT_TILE_BASE_URL=https://eratosthenes.pvretano.com/cubewerx/cubeserv/default/ogcapi/mysql_tb16/collections/sentinel1/map/default/tiles/smerc_512/%s/%s/%s.png
+    volumes:
+      - ./aoi.geojson:/aoi.geojson
+      - ./training2:/training

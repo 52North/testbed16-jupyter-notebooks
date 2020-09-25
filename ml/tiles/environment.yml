@@ -1,0 +1,10 @@
+name: geopandas
+channels:
+  - conda-forge
+dependencies:
+  - ipykernel
+  - pip
+  - pip: 
+    - geopandas
+    - descartes
+    - papermill
