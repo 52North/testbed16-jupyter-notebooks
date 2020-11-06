@@ -2,14 +2,14 @@ name: tb16
 channels:
   - conda-forge
 dependencies:
-  - ipykernel
+  - ipykernel==5.3.0
   - pip
-  - GDAL
+  - GDAL==3.1.0
   - pip: 
-    - rasterio
-    - nteract-scrapbook
-    - papermill
-    - folium 
-    - shapely
-    - matplotlib
-    - scikit-image
+    - rasterio==1.1.5
+    - nteract-scrapbook==0.4.1
+    - papermill==2.1.2
+    - folium==0.9.1
+    - shapely==1.7.0
+    - matplotlib==3.2.1
+    - scikit-image==0.17.2

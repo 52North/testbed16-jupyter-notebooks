@@ -1,0 +1,10 @@
+name: tb16
+channels:
+  - conda-forge
+dependencies:
+  - ipykernel==5.3.0
+  - pip
+  - pip: 
+    - sentinelsat==0.14
+    - nteract-scrapbook==0.4.1
+    - papermill==2.1.2
