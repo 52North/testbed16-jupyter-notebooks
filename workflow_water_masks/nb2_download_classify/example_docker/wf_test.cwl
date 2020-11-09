@@ -31,6 +31,9 @@ steps:
           envDef:
             SCIHUB_UN: xyz
             SCIHUB_PW: xyz
+        ResourceRequirement:
+          ramMin: 4000
+          ramMax: 12000
 
       arguments: ["/nb2.ipynb", "out.ipynb", "-p", "sentinel_ids", $(inputs.sentinelSceneIds)]
 
