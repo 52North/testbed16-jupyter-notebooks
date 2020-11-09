@@ -1,26 +1,3 @@
-nb1_input_notebook: 
-  class: File
-  path: nb1_request/nb1.ipynb
-nb1_output_notebook: nb1_output.ipynb
-
-nb2_input_notebook: 
-  class: File
-  path: nb2_download_classify/nb2.ipynb
-nb2_output_notebook: nb2_output.ipynb
-
-nb3_input_notebook: 
-  class: File
-  path: nb3_aggregate/nb3.ipynb
-nb3_output_notebook: nb3_output.ipynb
-
-parameters: 
-  class: File
-  path: nb_parameters.json
-
-# cwltool:overrides:
-#   workflow.cwl:
-#     requirements:
-#       EnvVarRequirement:
-#         envDef:
-#           LC_ALL: C.UTF-8
-#           LANG: C.UTF-8
+areaOfInterest: POLYGON ((6.2567138671875 51.57536261053028, 6.7160797119140625 51.57536261053028, 6.7160797119140625 51.78865666323309, 6.2567138671875 51.78865666323309, 6.2567138671875 51.57536261053028))
+startDate: "2020-09-09T17:59:59Z"
+endDate: "2020-09-10T23:59:59Z"

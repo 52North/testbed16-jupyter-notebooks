@@ -3,17 +3,21 @@ cwlVersion: v1.0
 class: Workflow
 inputs:
   areaOfInterest: string
+  startDate: string
+  endDate: string
 outputs:
-  files:
+  sentinelIds:
     type: 
       type: array
       items: string
     streamable: false
-    outputSource: parse/files
+    outputSource: parse/sentinelIds
 steps:
   execute:
     in:
       areaOfInterest: areaOfInterest
+      startDate: startDate
+      endDate: endDate
     out: [standard_output]
     run:
       class: CommandLineTool
@@ -25,12 +29,17 @@ steps:
         EnvVarRequirement:
           envDef:
             SCIHUB_UN: xyz
-            SCIHUB_PW: xyz
+            SCIHUB_PW: abc
 
       inputs:
         areaOfInterest:
           type: string
-      arguments: ["/nb1.ipynb", "out.ipynb", "-p", "REQUEST_AREA", $(inputs.areaOfInterest)]
+        startDate:
+          type: string
+        endDate:
+          type: string
+      arguments: ["/nb1.ipynb", "out.ipynb", "-p", "REQUEST_AREA", $(inputs.areaOfInterest),
+          "-p", "START_DATE", $(inputs.startDate), "-p", "END_DATE", $(inputs.endDate)]
 
       outputs:
         standard_output:
@@ -41,7 +50,7 @@ steps:
   parse:
     in: 
       input_nb: execute/standard_output
-    out: [files]
+    out: [sentinelIds]
     run:
       class: CommandLineTool
       hints:
@@ -65,7 +74,7 @@ steps:
           type: File
 
       outputs: 
-        files:
+        sentinelIds:
           type:
             type: array
             items: string

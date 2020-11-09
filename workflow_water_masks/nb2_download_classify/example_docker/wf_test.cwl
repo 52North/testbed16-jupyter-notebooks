@@ -9,6 +9,7 @@ inputs:
     type: 
       type: array
       items: string
+  areaOfInterest: string
 outputs:
   classifiedScenes:
     type: 
@@ -30,15 +31,18 @@ steps:
         EnvVarRequirement:
           envDef:
             SCIHUB_UN: xyz
-            SCIHUB_PW: xyz
+            SCIHUB_PW: abc
         ResourceRequirement:
           ramMin: 4000
           ramMax: 12000
 
-      arguments: ["/nb2.ipynb", "out.ipynb", "-p", "sentinel_ids", $(inputs.sentinelSceneIds)]
+      arguments: ["/nb2.ipynb", "out.ipynb", "-p", "sentinel_ids", $(inputs.sentinelSceneIds),
+            "-p", "REQUEST_AREA", $(inputs.areaOfInterest)]
 
       inputs: 
         sentinelSceneIds:
+          type: string
+        areaOfInterest:
           type: string
 
       outputs: 
@@ -51,4 +55,5 @@ steps:
     scatter: sentinelSceneIds
     in:
       sentinelSceneIds: sentinelSceneIds
+      areaOfInterest: areaOfInterest
     out: [floodmask]
