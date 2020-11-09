@@ -32,7 +32,7 @@ steps:
       baseCommand: papermill
       hints:
         DockerRequirement:
-          dockerPull: workflow_water_masks_nb1request:latest
+          dockerPull: 52north/testbed16-wwm-discover:latest
 
       inputs:
         areaOfInterest:
@@ -58,7 +58,7 @@ steps:
       class: CommandLineTool
       hints:
         DockerRequirement:
-          dockerPull: workflow_water_masks_nb1request:latest
+          dockerPull: 52north/testbed16-wwm-classify:latest
       baseCommand: ["python3", "parse.py"]
       requirements:
         InlineJavascriptRequirement: {}
@@ -93,7 +93,7 @@ steps:
 
       hints:
         DockerRequirement:
-          dockerPull: workflow_water_masks_nb2classify:latest
+          dockerPull: 52north/testbed16-wwm-mosaic:latest
 
       requirements:
         ResourceRequirement:

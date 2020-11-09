@@ -3,14 +3,18 @@ services:
   nb1request:
     build: 
       context: ./nb1_request
+    image: 52north/testbed16-wwm-discover:latest
     environment:
       - SCIHUB_UN=$SCIHUB_UN
       - SCIHUB_PW=$SCIHUB_PW
   nb2classify:
     build: 
       context: ./nb2_download_classify
+    image: 52north/testbed16-wwm-classify:latest
     environment:
       - SCIHUB_UN=$SCIHUB_UN
       - SCIHUB_PW=$SCIHUB_PW
   nb3aggregate:
     build: ./nb3_aggregate
+    image: 52north/testbed16-wwm-mosaic:latest
+
