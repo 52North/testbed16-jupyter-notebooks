@@ -8,9 +8,9 @@ services:
       - SCIHUB_PW=$SCIHUB_PW
   nb2classify:
     build: 
-      context: ./nb2_download_classify/docker
+      context: ./nb2_download_classify
     environment:
       - SCIHUB_UN=$SCIHUB_UN
       - SCIHUB_PW=$SCIHUB_PW
   nb3aggregate:
-    build: ./nb3_aggregate/docker/
+    build: ./nb3_aggregate
