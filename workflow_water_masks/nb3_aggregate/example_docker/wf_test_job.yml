@@ -1,0 +1,4 @@
+floodmasks_geotiff:
+  - {class: File, path: ./input/result1.tif}
+  - {class: File, path: ./input/result2.tif}
+  - {class: File, path: ./input/result3.tif}

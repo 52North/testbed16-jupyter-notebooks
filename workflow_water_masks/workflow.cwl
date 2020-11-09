@@ -1,68 +1,64 @@
 #!/usr/bin/env cwl-runner
 cwlVersion: v1.0
 class: Workflow
-inputs:
-  nb1_input_notebook: File
-  nb1_output_notebook: string
-  nb2_input_notebook: File
-  nb2_output_notebook: string
-  nb3_input_notebook: File
-  nb3_output_notebook: string
-  parameters: File
-
-outputs: 
-  nb1_output_notebook:
-    type: File
-    streamable: false
-    outputSource: nb1_execute/output_0
-  nb1_output:
-    type: 
-      type: array
-      items: string
-    streamable: false
-    outputSource: nb1_parse/files
-
-  nb2_output_notebooks:
-    type: 
-      type: array
-      items: File
-    streamable: false
-    outputSource: nb2_execute/output_notebook
-  nb2_output_results:
-    type:
-      type: array
-      items: File
-    streamable: false
-    outputSource: nb2_execute/floodmask
-
-  nb3_output_notebook:
-    type: File
-    streamable: false
-    outputSource: nb3_execute/output_notebook
-  nb3_aggregated_floodmask:
-    type: File
-    streamable: false
-    outputSource: nb3_execute/floodmask
-
 requirements:
   SubworkflowFeatureRequirement: {}
   ScatterFeatureRequirement: {}
-
+  ResourceRequirement:
+    ramMin: 4000
+    ramMax: 12000
+  EnvVarRequirement:
+    envDef:
+      SCIHUB_UN: xyz
+      SCIHUB_PW: abc
+inputs:
+  areaOfInterest: string
+  startDate: string
+  endDate: string
+outputs: 
+  floodmask_mosaic:
+    type: File
+    streamable: false
+    outputSource: mosaic/floodmask_mosaic
 steps:
-  nb1_execute:
-    run: nb1_request/nb1.cwl
+  discover:
     in:
-      nb1_input_notebook: nb1_input_notebook
-      nb1_output_notebook: nb1_output_notebook
-      parameters: parameters
-    out: [output_0]
-
-  nb1_parse:
-    in: 
-      input_nb: nb1_execute/output_0
-    out: [files]
+      areaOfInterest: areaOfInterest
+      startDate: startDate
+      endDate: endDate
+    out: [nb1_out]
     run:
       class: CommandLineTool
+      baseCommand: papermill
+      hints:
+        DockerRequirement:
+          dockerPull: workflow_water_masks_nb1request:latest
+
+      inputs:
+        areaOfInterest:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+      arguments: ["/nb1.ipynb", "out.ipynb", "-p", "REQUEST_AREA", $(inputs.areaOfInterest),
+          "-p", "START_DATE", $(inputs.startDate), "-p", "END_DATE", $(inputs.endDate)]
+
+      outputs:
+        nb1_out:
+          type: File
+          outputBinding:
+            glob: out.ipynb
+
+  discover_parse:
+    in: 
+      input_nb: discover/nb1_out
+    out: [sentinelIds]
+    run:
+      class: CommandLineTool
+      hints:
+        DockerRequirement:
+          dockerPull: workflow_water_masks_nb1request:latest
       baseCommand: ["python3", "parse.py"]
       requirements:
         InlineJavascriptRequirement: {}
@@ -74,35 +70,97 @@ steps:
                 nb = sb.read_notebook("$(inputs.input_nb.path)")
                 print(','.join(list(nb.scrap_dataframe["data"])[0]))
 
-      stdout: message
+      stdout: csvItems
 
       inputs: 
         input_nb:
           type: File
 
       outputs: 
-        files:
-          type: 
+        sentinelIds:
+          type:
             type: array
             items: string
           outputBinding:
-            glob: message
+            glob: csvItems
             loadContents: true
             outputEval: $(self[0].contents.replace('\n','').split(','))
-    
-  nb2_execute:
-    run: nb2_download_classify/nb2.cwl
-    scatter: parameters
-    in:
-      nb2_input_notebook: nb2_input_notebook
-      nb2_output_notebook: nb2_output_notebook
-      parameters: nb1_parse/files
-    out: [output_notebook, floodmask]
 
-  nb3_execute:
-    run: nb3_aggregate/nb3.cwl
+  classify:
+    run:
+      class: CommandLineTool
+      baseCommand: papermill
+
+      hints:
+        DockerRequirement:
+          dockerPull: workflow_water_masks_nb2classify:latest
+
+      requirements:
+        ResourceRequirement:
+          ramMin: 4000
+          ramMax: 12000
+
+      arguments: ["/nb2.ipynb", "out.ipynb", "-p", "sentinel_ids", $(inputs.sentinelSceneIds),
+            "-p", "REQUEST_AREA", $(inputs.areaOfInterest)]
+
+      inputs: 
+        sentinelSceneIds:
+          type: string
+        areaOfInterest:
+          type: string
+
+      outputs: 
+        floodmask:
+          outputBinding:
+            glob: result.tif
+          streamable: false
+          type: File
+
+    scatter: sentinelSceneIds
     in:
-      nb3_input_notebook: nb3_input_notebook
-      nb3_output_notebook: nb3_output_notebook
-      floodmasks_geotiff: nb2_execute/floodmask
-    out: [output_notebook, floodmask]
+      sentinelSceneIds: discover_parse/sentinelIds
+      areaOfInterest: areaOfInterest
+    out: [floodmask]
+
+  mosaic:
+    run:
+      class: CommandLineTool
+      baseCommand: papermill
+
+      requirements: 
+        InlineJavascriptRequirement: {}
+
+      hints:
+        DockerRequirement:
+          dockerPull: workflow_water_masks_nb3aggregate:latest
+
+      arguments: ["/nb3.ipynb", "out.ipynb"]
+
+      inputs: 
+        floodmasks_geotiff_as_array:
+          type: 
+            type: array
+            items: File
+          inputBinding:
+            prefix: -y
+            valueFrom: |
+              ${
+                var yml = "floodmasks_geotiff: ["
+                self.forEach(function(file){
+                  yml = yml + file.path + ","
+                })
+                yml = yml + "]"
+                return yml
+              }
+          streamable: false
+
+      outputs: 
+        floodmask_mosaic:
+          outputBinding:
+            glob: mosaic.tif
+          streamable: false
+          type: File
+
+    in:
+      floodmasks_geotiff_as_array: classify/floodmask
+    out: [floodmask_mosaic]
