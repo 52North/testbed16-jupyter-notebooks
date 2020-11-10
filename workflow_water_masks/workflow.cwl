@@ -58,7 +58,7 @@ steps:
       class: CommandLineTool
       hints:
         DockerRequirement:
-          dockerPull: 52north/testbed16-wwm-classify:latest
+          dockerPull: 52north/testbed16-wwm-discover:latest
       baseCommand: ["python3", "parse.py"]
       requirements:
         InlineJavascriptRequirement: {}
@@ -93,7 +93,7 @@ steps:
 
       hints:
         DockerRequirement:
-          dockerPull: 52north/testbed16-wwm-mosaic:latest
+          dockerPull: 52north/testbed16-wwm-classify:latest
 
       requirements:
         ResourceRequirement:
@@ -132,7 +132,7 @@ steps:
 
       hints:
         DockerRequirement:
-          dockerPull: workflow_water_masks_nb3aggregate:latest
+          dockerPull: 52north/testbed16-wwm-mosaic:latest
 
       arguments: ["/nb3.ipynb", "out.ipynb"]
 
