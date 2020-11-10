@@ -7,14 +7,13 @@ requirements:
   ResourceRequirement:
     ramMin: 4000
     ramMax: 12000
-  EnvVarRequirement:
-    envDef:
-      SCIHUB_UN: xyz
-      SCIHUB_PW: abc
+
 inputs:
   areaOfInterest: string
   startDate: string
   endDate: string
+  SCIHUB_UN: string
+  SCIHUB_PW: string
 outputs: 
   floodmask_mosaic:
     type: File
@@ -26,6 +25,8 @@ steps:
       areaOfInterest: areaOfInterest
       startDate: startDate
       endDate: endDate
+      SCIHUB_UN: SCIHUB_UN
+      SCIHUB_PW: SCIHUB_PW
     out: [nb1_out]
     run:
       class: CommandLineTool
@@ -41,8 +42,13 @@ steps:
           type: string
         endDate:
           type: string
+        SCIHUB_UN:
+          type: string
+        SCIHUB_PW:
+          type: string
       arguments: ["/nb1.ipynb", "out.ipynb", "-p", "REQUEST_AREA", $(inputs.areaOfInterest),
-          "-p", "START_DATE", $(inputs.startDate), "-p", "END_DATE", $(inputs.endDate)]
+          "-p", "START_DATE", $(inputs.startDate), "-p", "END_DATE", $(inputs.endDate),
+          "-p", "SCIHUB_UN", $(inputs.SCIHUB_UN), "-p", "SCIHUB_PW", $(inputs.SCIHUB_PW)]
 
       outputs:
         nb1_out:
@@ -101,12 +107,17 @@ steps:
           ramMax: 12000
 
       arguments: ["/nb2.ipynb", "out.ipynb", "-p", "sentinel_ids", $(inputs.sentinelSceneIds),
-            "-p", "REQUEST_AREA", $(inputs.areaOfInterest)]
+            "-p", "REQUEST_AREA", $(inputs.areaOfInterest),
+          "-p", "SCIHUB_UN", $(inputs.SCIHUB_UN), "-p", "SCIHUB_PW", $(inputs.SCIHUB_PW)]
 
       inputs: 
         sentinelSceneIds:
           type: string
         areaOfInterest:
+          type: string
+        SCIHUB_UN:
+          type: string
+        SCIHUB_PW:
           type: string
 
       outputs: 
@@ -120,6 +131,8 @@ steps:
     in:
       sentinelSceneIds: discover_parse/sentinelIds
       areaOfInterest: areaOfInterest
+      SCIHUB_UN: SCIHUB_UN
+      SCIHUB_PW: SCIHUB_PW
     out: [floodmask]
 
   mosaic:
